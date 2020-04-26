@@ -12,6 +12,8 @@ import { OverlayContentComponent } from './overlay-content/overlay-content.compo
 })
 export class AppComponent {
 
+  private _overlayRef?: OverlayRef;
+
   constructor(
     private readonly _overlay: Overlay,
   ) {
@@ -28,9 +30,13 @@ export class AppComponent {
       width: 'auto',
       height: 'auto',
     };
-    const overlayRef: OverlayRef = this._overlay.create(config);
+    const overlayRef: OverlayRef = this._overlayRef = this._overlay.create(config);
     const componentPortal: ComponentPortal<OverlayContentComponent> = new ComponentPortal(OverlayContentComponent);
     const componentRef: ComponentRef<OverlayContentComponent> = overlayRef.attach(componentPortal);
   }
 
+  closeOverlay() {
+    this._overlayRef?.dispose();
+    this._overlayRef = undefined;
+  }
 }
