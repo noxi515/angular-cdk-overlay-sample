@@ -371,7 +371,130 @@
           }
         }
       }
+    },
+    "inject-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/inject-app",
+      "sourceRoot": "projects/inject-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/inject-app",
+            "index": "projects/inject-app/src/index.html",
+            "main": "projects/inject-app/src/main.ts",
+            "polyfills": "projects/inject-app/src/polyfills.ts",
+            "tsConfig": "projects/inject-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/inject-app/src/favicon.ico",
+              "projects/inject-app/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/inject-app/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/inject-app/src/environments/environment.ts",
+                  "with": "projects/inject-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "inject-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "inject-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "inject-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/inject-app/src/test.ts",
+            "polyfills": "projects/inject-app/src/polyfills.ts",
+            "tsConfig": "projects/inject-app/tsconfig.spec.json",
+            "karmaConfig": "projects/inject-app/karma.conf.js",
+            "assets": [
+              "projects/inject-app/src/favicon.ico",
+              "projects/inject-app/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/inject-app/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/inject-app/tsconfig.app.json",
+              "projects/inject-app/tsconfig.spec.json",
+              "projects/inject-app/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/inject-app/e2e/protractor.conf.js",
+            "devServerTarget": "inject-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "inject-app:serve:production"
+            }
+          }
+        }
+      }
     }
   },
-  "defaultProject": "backdrop-app"
+  "defaultProject": "inject-app"
 }
